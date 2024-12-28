@@ -1,17 +1,24 @@
 using System;
+using Action = Unity.Android.Gradle.Manifest.Action;
 
-namespace _Main.Project.Scripts.GeneralSystems
+namespace Scripts.Events
 {
-    public static class GeneralEvents
+    public static class Events
     {
-
-        #region Player Events
         
-        #endregion
+        #region GeneralEvents
+        
+        public static Action GameStarted;
+        public static Action GameEnded;
 
-        #region Environment Events
+        #endregion GeneralEvents
+        
+        #region Score Events
 
-        #endregion
+        public static Action<int> OnLeftScoreChanged;
+        public static Action<int> OnRightScoreChanged;
+
+        #endregion Score Events
 
     }
 }

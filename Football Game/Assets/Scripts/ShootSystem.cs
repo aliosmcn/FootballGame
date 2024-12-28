@@ -1,73 +1,76 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShootSystem : MonoBehaviour
+public abstract class ShootSystem: MonoBehaviour
 {
     public GameObject ballPrefab;
     public Transform firePoint;
+    
+    protected Transform arrow;
+    protected Slider powerSlider;
 
-    private Transform arrow; 
-    private Slider powerSlider;
+    [SerializeField] [Range(0, 100)] private float angleSpeed = 100f;
+    [SerializeField] [Range(0, 100)] private float maxPower = 10f;
+    [SerializeField] [Range(0, 100)] private float powerIncreaseRate = 10f;
 
-    [SerializeField] [Range(0, 100)] private float angleSpeed = 50f;
-    [SerializeField] [Range(0, 100)] private float maxPower = 100f;
-    [SerializeField] [Range(0, 100)] private float powerIncreaseRate = 50f;
+    protected bool readyForFire = true;
+    protected bool isAdjustingAngle = true;
+    protected bool isCharging = false;
 
-    private bool readyForFire = true;
-    private bool isAdjustingAngle = true;
-    private bool isCharging = false;
-    public float currentPower = 0f; 
-    private float currentAngle = 0f;
+    protected float currentPower = 0f;
+    protected float currentAngle;
+
+    protected abstract KeyCode FireKey { get; }
+    protected abstract float MinAngle { get; }
+    protected abstract float MaxAngle { get; }
 
     private void Start()
     {
         arrow = GetComponentInChildren<Slider>().gameObject.transform;
         powerSlider = GetComponentInChildren<Slider>();
-        this.transform.position = firePoint.position;
-        ballPrefab.GetComponent<Renderer>().material = this.GetComponent<Renderer>().material;
+        transform.position = firePoint.position;
+        
     }
 
-    void Update()
+    private void Update()
     {
         AngleSelection();
         PowerSelection();
     }
 
-    void AngleSelection()
+    private void AngleSelection()
     {
         if (isAdjustingAngle)
         {
             currentAngle += angleSpeed * Time.deltaTime;
-            currentAngle = Mathf.Clamp(currentAngle, 0f, 110f);
-
+            currentAngle = Mathf.Clamp(currentAngle, MinAngle, MaxAngle);
             arrow.localRotation = Quaternion.Euler(0, 0, currentAngle);
 
-            if (currentAngle >= 110f || currentAngle <= 0f)
+            if (currentAngle >= MaxAngle || currentAngle <= MinAngle)
             {
                 angleSpeed = -angleSpeed;
             }
         }
 
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetKeyDown(FireKey))
         {
             isAdjustingAngle = false;
         }
     }
 
-    void PowerSelection()
+    private void PowerSelection()
     {
         if (!isAdjustingAngle)
         {
-            if (Input.GetMouseButton(0)) 
+            if (Input.GetKey(FireKey))
             {
                 isCharging = true;
                 currentPower += powerIncreaseRate * Time.deltaTime;
-                currentPower = Mathf.Clamp(currentPower, 0, maxPower); 
-                powerSlider.value = currentPower / maxPower; 
+                currentPower = Mathf.Clamp(currentPower, 0, maxPower);
+                powerSlider.value = currentPower / maxPower;
             }
 
-            if (Input.GetMouseButtonUp(0) && isCharging)
+            if (Input.GetKeyUp(FireKey) && isCharging)
             {
                 isAdjustingAngle = true;
                 if (currentPower < 1f)
@@ -75,23 +78,31 @@ public class ShootSystem : MonoBehaviour
                     ResetSystem();
                     return;
                 }
+
                 if (readyForFire) Fire();
                 CloseBallVisibility();
             }
         }
     }
-    void Fire()
+
+    public void Fire()
     {
-        
         GameObject projectile = Instantiate(ballPrefab, firePoint.position, firePoint.rotation);
+
+        //Invoke(nameof(ReturnBallToPool), 5f);
+        
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
         Vector3 direction = Quaternion.Euler(0, 0, currentAngle) * Vector3.right;
         rb.linearVelocity = direction * currentPower;
-        
     }
+/*
+    private void ReturnBallToPool()
+    {
+        ObjectPool.Instance.ReturnObject(projectile);
+    }*/
 
-    void CloseBallVisibility()
+    private void CloseBallVisibility()
     {
         readyForFire = false;
         GetComponent<MeshRenderer>().enabled = false;
@@ -99,7 +110,7 @@ public class ShootSystem : MonoBehaviour
         Invoke(nameof(AddBallVisibility), 0.5f);
     }
 
-    void AddBallVisibility()
+    private void AddBallVisibility()
     {
         readyForFire = true;
         GetComponent<MeshRenderer>().enabled = true;
@@ -107,8 +118,7 @@ public class ShootSystem : MonoBehaviour
         ResetSystem();
     }
 
-    
-    void ResetSystem()
+    private void ResetSystem()
     {
         isAdjustingAngle = true;
         isCharging = false;

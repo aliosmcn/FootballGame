@@ -4,7 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Kale
+  - RKale
+  - LKale
   layers:
   - Default
   - TransparentFX

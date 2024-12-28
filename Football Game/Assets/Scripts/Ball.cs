@@ -1,17 +1,19 @@
+using Scripts.Data;
+using Scripts.Events;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    void Start()
-    {
-        Destroy(gameObject, 5f);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Kale"))
+        if (other.CompareTag("RKale"))
         {
-            Debug.Log("GOL");
+            Events.OnLeftScoreChanged.Invoke(1);
         }
+        if (other.CompareTag("LKale"))
+        {
+            Events.OnRightScoreChanged.Invoke(1);
+        }
+        
     }
 }

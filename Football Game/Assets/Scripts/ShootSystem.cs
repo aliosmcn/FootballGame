@@ -1,8 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class ShootSystem: MonoBehaviour
 {
+    public List<GameObject> balls;
+    private int sayi;
+    private List<GameObject> lastObject;
+    
+    
     public GameObject ballPrefab;
     public Transform firePoint;
     
@@ -29,7 +35,6 @@ public abstract class ShootSystem: MonoBehaviour
         arrow = GetComponentInChildren<Slider>().gameObject.transform;
         powerSlider = GetComponentInChildren<Slider>();
         transform.position = firePoint.position;
-        
     }
 
     private void Update()
@@ -87,20 +92,15 @@ public abstract class ShootSystem: MonoBehaviour
 
     public void Fire()
     {
-        GameObject projectile = Instantiate(ballPrefab, firePoint.position, firePoint.rotation);
-
-        //Invoke(nameof(ReturnBallToPool), 5f);
+        GameObject projectile = ObjectPool.Instance.GetObject();
+        projectile.transform.position = firePoint.position;
+        projectile.transform.rotation = firePoint.rotation;
         
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
         Vector3 direction = Quaternion.Euler(0, 0, currentAngle) * Vector3.right;
         rb.linearVelocity = direction * currentPower;
     }
-/*
-    private void ReturnBallToPool()
-    {
-        ObjectPool.Instance.ReturnObject(projectile);
-    }*/
 
     private void CloseBallVisibility()
     {

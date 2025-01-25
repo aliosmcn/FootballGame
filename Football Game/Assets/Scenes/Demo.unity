@@ -954,6 +954,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656897066}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &707481083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 707481085}
+  - component: {fileID: 707481084}
+  m_Layer: 0
+  m_Name: POOL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &707481084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707481083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322976cceec4bb74595462f924ec91b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 5982125512346266392, guid: 18207b0c71df7e04fb021772480506f9, type: 3}
+  initialPoolSize: 10
+--- !u!4 &707481085
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707481083}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &776169772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1370,6 +1416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e491a7590caeb7459b86a7d4f1a677f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  balls: []
   ballPrefab: {fileID: 5982125512346266392, guid: 18207b0c71df7e04fb021772480506f9, type: 3}
   firePoint: {fileID: 2025872129}
   angleSpeed: 100
@@ -1576,6 +1623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff8c14be4f715f45a5315ba3d201397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  balls: []
   ballPrefab: {fileID: 5982125512346266392, guid: 18207b0c71df7e04fb021772480506f9, type: 3}
   firePoint: {fileID: 1707799703}
   angleSpeed: 100
@@ -2053,7 +2101,6 @@ GameObject:
   - component: {fileID: 1785399142}
   - component: {fileID: 1785399141}
   - component: {fileID: 1785399140}
-  - component: {fileID: 1785399143}
   m_Layer: 0
   m_Name: kaleci
   m_TagString: Untagged
@@ -2150,19 +2197,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1785399138}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1785399143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1785399138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 322976cceec4bb74595462f924ec91b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 5982125512346266392, guid: 18207b0c71df7e04fb021772480506f9, type: 3}
 --- !u!1 &1845495824
 GameObject:
   m_ObjectHideFlags: 0
@@ -2552,3 +2586,4 @@ SceneRoots:
   - {fileID: 1895799812}
   - {fileID: 656897067}
   - {fileID: 1785399139}
+  - {fileID: 707481085}

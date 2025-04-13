@@ -37,7 +37,6 @@ public class ScoreSystem : MonoBehaviour
         {
             Data.LeftScore = 0;
             Data.RightScore = 0;
-            Debug.Log("berra");
         }
     }
 }
